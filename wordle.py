@@ -1,7 +1,5 @@
 
-from cmath import e
 import random
-from unicodedata import is_normalized
 
 print('Welcome to the word guessing game!')
 
@@ -9,28 +7,33 @@ name = input('What is your name? ')
 print(f'Good luck ! {name}')
 words = ['sacraments', 'scriptures', 'testimony', 'faith']
 secret_word = random.choice(words)
-guess_count = 0
-spaces = ' _ '* len(secret_word)
+word_len = len(secret_word)
 guess_word = ''
+spaces = ' _ '* word_len
+guess_count = 0
 
 
-while guess_word != secret_word:
+while guess_word.lower() != secret_word:
+    guess_count += 1
+    print()
     print(f'Your hint is: {spaces}')
     guess_word = input('What is your guess? ')
-    guess_count = guess_count + 1
 
-    for letter in secret_word:
-        if letter.lower() == guess_word.lower():
-            print(letter.upper())
+    spaces = ''
+
+    for i, letter in enumerate(guess_word):
+        if letter in secret_word:
+            if i >= word_len or letter != secret_word[i]:
+                spaces += letter.lower() + ' '
+            else:
+                spaces += letter.upper() + ' '
+
         else:
-            print(letter.lower(), end=' ')      
+            spaces += '_ '
 
 print() 
 
-   
-
-
-print(f'Congratulations! You guessed it!')
+print('Congratulations! You guessed it!')
 print(f'It took you {guess_count} guesses')   
 
 
